@@ -1,7 +1,7 @@
 import React from 'react'
 import HomeCSS from '../../style/Home.module.css'
-import SlideProducts from './SlideProducts'
-
+import SlideProducts from './Slider'
+import PopularProducts from './PopularProducts'
 
 
 function Home() {
@@ -9,6 +9,7 @@ function Home() {
   return (
     <div className={HomeCSS.Home}>
       <SlideProducts />
+      <PopularProducts />
     </div>
   )
 }

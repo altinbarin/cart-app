@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import ProductCSS from '../style/Product.module.css'
+import ProductCSS from '../../style/Product.module.css'
 
 function Products() {
 
