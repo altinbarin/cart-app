@@ -1,9 +1,9 @@
 import React from 'react'
-import '../style/Footer.css'
+import  FooterCSS from '../style/Footer.module.css'
 
 function Footer() {
   return (
-    <div className='Footer'>
+    <div className={FooterCSS.Footer}>
       <p>Created by altinbarin</p>
     </div>
   )
