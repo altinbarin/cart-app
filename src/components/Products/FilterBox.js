@@ -1,87 +1,157 @@
 import Products from './Products';
-import { useEffect, useState } from 'react';
-import FilterBoxCSS from '../../style/FilterBox.module.css';
+import { useEffect, useState } from 'react'
+import FilterBoxCSS from '../../style/FilterBox.module.css'
 
 const FilterBox = (props) => {
+
+
   const [sortedProducts, setSortedProducts] = useState([]);
   const [isSorted, setIsSorted] = useState(false);
   const [uniqueBrands, setUniqueBrands] = useState([]);
   const [selectedBrands, setSelectedBrands] = useState([]);
-  const [sortType, setSortType] = useState('default');
 
-  useEffect(() => {
-    const brands = Array.from(new Set(props.products.map(product => product.brand)));
-    setUniqueBrands(brands);
-  }, [props.products]);
-
-  const handleBrandChange = (e) => {
-    const selectedBrand = e.target.value;
-    const updatedSelectedBrands = selectedBrands.includes(selectedBrand)
-      ? selectedBrands.filter(brand => brand !== selectedBrand)
-      : [...selectedBrands, selectedBrand];
-
-    setSelectedBrands(updatedSelectedBrands);
-    filterProducts(updatedSelectedBrands);
-  };
-
-  const filterProducts = (selectedBrands) => {
-    if (selectedBrands.length > 0) {
-      const filteredProducts = props.products.filter(product => selectedBrands.includes(product.brand));
-      sortProducts(filteredProducts);
-    } else {
-      sortProducts(props.products);
-    }
-  };
-
-  const sortProducts = (products) => {
-    let sorted;
-    switch (sortType) {
-      case 'ascending':
-        sorted = [...products].sort((a, b) => a.price - b.price);
-        break;
-      case 'descending':
-        sorted = [...products].sort((a, b) => b.price - a.price);
-        break;
-      case 'discountAscending':
-        sorted = [...products].sort((a, b) => a.discountPercentage - b.discountPercentage);
-        break;
-      case 'discountDescending':
-        sorted = [...products].sort((a, b) => b.discountPercentage - a.discountPercentage);
-        break;
-      case 'ratingAscending':
-        sorted = [...products].sort((a, b) => a.rating - b.rating);
-        break;
-      case 'ratingDescending':
-        sorted = [...products].sort((a, b) => b.rating - a.rating);
-        break;
-      default:
-        sorted = products;
-        break;
-    }
+  const sortByPriceIncreasing = () => {
+    const sorted = [...props.products].sort((a, b) => a.price - b.price);
     setSortedProducts(sorted);
     setIsSorted(true);
   };
 
-  const handleSortChange = (e) => {
-    const value = e.target.value;
-    setSortType(value);
-    filterProducts(selectedBrands);
+  const sortByPriceDecreasing = () => {
+    const sorted = [...props.products].sort((b, a) => a.price - b.price);
+    setSortedProducts(sorted);
+    setIsSorted(true);
   };
+
+  
+  const sortByDiscountIncreasing = () => {
+    const sorted = [...props.products].sort((a, b) => a.discountPercentage - b.discountPercentage);
+    setSortedProducts(sorted);
+    setIsSorted(true);
+  };
+
+  const sortByDiscountDecreasing = () => {
+    const sorted = [...props.products].sort((b, a) => a.discountPercentage - b.discountPercentage);
+    setSortedProducts(sorted);
+    setIsSorted(true);
+  };
+
+
+  const sortByRatingIncreasing = () => {
+    const sorted = [...props.products].sort((a, b) => a.rating - b.rating);
+    setSortedProducts(sorted);
+    setIsSorted(true);
+  };
+
+  const sortByRatingDecreasing = () => {
+    const sorted = [...props.products].sort((b, a) => a.rating - b.rating);
+    setSortedProducts(sorted);
+    setIsSorted(true);
+  };
+
+
+  const handleSortPriceChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === 'ascending') {
+      sortByPriceIncreasing();
+    } else if (selectedValue === 'descending') {
+      sortByPriceDecreasing();
+    } else if (selectedValue === 'default'){
+      setSortedProducts(props.products);
+      setIsSorted(false);
+    }
+  };
+
+  const handleSortDiscountChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === 'ascending') {
+      sortByDiscountIncreasing();
+    } else if (selectedValue === 'descending') {
+      sortByDiscountDecreasing();
+    } else if (selectedValue === 'default'){
+      setSortedProducts(props.products);
+      setIsSorted(false);
+    }
+  };
+
+  const handleSortRatingChange = (e) => {
+    const selectedValue = e.target.value;
+    if (selectedValue === 'ascending') {
+      sortByRatingIncreasing();
+    } else if (selectedValue === 'descending') {
+      sortByRatingDecreasing();
+    } else if (selectedValue === 'default'){
+      setSortedProducts(props.products);
+      setIsSorted(false);
+    }
+  };
+
+
+
+  useEffect (()=>{
+    const uniqueBrandsList = Array.from(new Set(props.products.map((product)=>product.brand)));
+    setUniqueBrands(uniqueBrandsList);
+  }, [props.products]);
+
+  const handleBrandChange = (e) => {
+    const selectedBrand = e.target.value;
+
+    if (selectedBrands.includes(selectedBrand)) {
+      setSelectedBrands(selectedBrands.filter((brand) => brand !== selectedBrand));
+    } else {
+      setSelectedBrands([...selectedBrands, selectedBrand]);
+    }
+  };
+
+  const handleFilterClick = () => {
+    if (selectedBrands.length > 0) {
+      // Seçilen markalara göre ürünleri filtreleme işlemi
+      const filteredProducts = props.products.filter((product) => selectedBrands.includes(product.brand));
+      setSortedProducts(filteredProducts);
+      setIsSorted(true);
+    } else {
+      // Eğer hiçbir marka seçili değilse, tüm ürünleri göster
+      setSortedProducts(props.products);
+      setIsSorted(false);
+    }
+  };
+
+  useEffect(() => {
+    const uniqueBrandsList = Array.from(new Set(props.products.map((product) => product.brand)));
+    setUniqueBrands(uniqueBrandsList);
+  }, [props.products]);
+
+
+
 
   return (
     <div className={FilterBoxCSS.filters}>
       <div className={FilterBoxCSS.selectOptions}>
+
         <div>
-          <select onChange={handleSortChange}>
-            <option value="default">Fiyata göre sırala</option>
-            <option value="ascending">Artan</option>
-            <option value="descending">Azalan</option>
-            <option value="discountAscending">İndirime göre Artan</option>
-            <option value="discountDescending">İndirime göre Azalan</option>
-            <option value="ratingAscending">Puana göre Artan</option>
-            <option value="ratingDescending">Puana göre Azalan</option>
-          </select>
+        <select onChange={handleSortPriceChange}>
+          <option value="default">Fiyata göre sırala</option>
+          <option value="ascending">Artan</option>
+          <option value="descending">Azalan</option>
+        </select>
         </div>
+     
+     <div>
+      <select onChange={handleSortDiscountChange}>
+          <option value="default">İndirime göre sırala</option>
+          <option value="ascending">Artan</option>
+          <option value="descending">Azalan</option>
+        </select>
+     </div>
+      
+      <div>
+      <select onChange={handleSortRatingChange}>
+          <option value="default">Puana göre sırala</option>
+          <option value="ascending">Artan</option>
+          <option value="descending">Azalan</option>
+        </select>
+      </div>
+
+
       </div>
 
       <div className={FilterBoxCSS.brandFilter}>
@@ -98,10 +168,13 @@ const FilterBox = (props) => {
             </label>
           </div>
         ))}
+      <div>
+        <button onClick={handleFilterClick}>Filtrele</button>
+      </div>
       </div>
 
       <div className={FilterBoxCSS.products}>
-        <Products products={isSorted ? sortedProducts : props.products} />
+      <Products products={isSorted ? sortedProducts : props.products} />
       </div>
     </div>
   );
