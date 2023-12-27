@@ -1,14 +1,33 @@
-import React from 'react'
+import { useState, useEffect } from 'react'
 import Products from './Products'
 import FilterBox from './FilterBox'
 import ProductsPageCSS from '../../style/ProductsPage.module.css'
 
 const ProductsPage = () => {
+
+  const [products, setProducts] = useState([])
+
+
+  useEffect(()=>{
+    fetch('https://dummyjson.com/products').then(response=>{
+      return response.json()
+    })
+    .then(data=>{
+      setProducts(data.products)
+      console.log(data.products)
+    })
+    .catch(error=>{
+      console.log(error)
+    })
+  },[])
+
+
+
   return (
     <div className={ProductsPageCSS.container}>
       <div className={ProductsPageCSS.content}>
-      <FilterBox className={ProductsPageCSS.filterBox}/>
-      <Products className={ProductsPageCSS.products}/>
+      <FilterBox products = {products} className={ProductsPageCSS.filterBox}/>
+      {/* <Products products = {products} className={ProductsPageCSS.products}/> */}
       </div>
     </div>
   )

@@ -8,7 +8,7 @@ function SlideProducts() {
   const [index, setIndex] = useState(0);
   const [products, setProducts] = useState([]);
   const progressBarRef = useRef(null);
-  const displayDuration = 3000; // Fotoğrafın ekranda kalma süresi (3 saniye)
+  const displayDuration = 3000; 
 
   useEffect(() => {
     setProducts(productsData);
