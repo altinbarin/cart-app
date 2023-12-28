@@ -78,6 +78,7 @@ const FilterBox = (props) => {
             <option value="ratingDescending">En yüksek puan</option>
           </select>
         </div>
+
       </div>
 
       <div className={FilterBoxCSS.brandFilter}>

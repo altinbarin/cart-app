@@ -27,7 +27,7 @@ const ProductsPage = () => {
     <div className={ProductsPageCSS.container}>
       <div className={ProductsPageCSS.content}>
       <FilterBox products = {products} className={ProductsPageCSS.filterBox}/>
-      {/* <Products products = {products} className={ProductsPageCSS.products}/> */}
+
       </div>
     </div>
   )

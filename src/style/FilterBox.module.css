@@ -1,14 +1,88 @@
-.filters{
-    display: flex;
-}
-.selectOptions{
-    
+/* FilterBox.module.css */
+
+/* Genel filtre kutusu */
+.filters {
+    display: grid;
+    grid-template-columns: auto 1fr auto; /* Sıralama, Markalar ve Ürün Listesi */
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
 }
 
-.brandFilter{
-   
+/* Sıralama seçenekleri */
+.selectOptions {
+    grid-column: 3; /* Sıralama seçeneklerinin konumu */
+    justify-self: end; /* Sağ kenara hizala */
+    width: 200px; /* Dropdown genişliği */
 }
 
-.products{
-    
+.selectOptions select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+/* Marka filtreleme */
+.brandFilter {
+    grid-column: 1; /* Marka filtrelerinin konumu */
+}
+
+.brandFilter label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.brandFilter input[type='checkbox'] {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+/* Ürünlerin listelendiği bölüm */
+.products {
+    grid-column: 2 / 4; /* Ürün listesinin konumu */
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Otomatik olarak sığacak şekilde sütunları ayarla */
+    gap: 20px;
+    justify-content: start; /* İçerikleri sol kenara hizala */
+}
+
+/* Her bir ürün kartı */
+.products .card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    background-color: #fff;
+}
+
+.products .card img {
+    max-width: 100%;
+    height: auto;
+}
+
+.products .card h1 {
+    font-size: 18px;
+    margin-bottom: 8px;
+}
+
+.products .card p {
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.products .card button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+}
+
+.products .card button:hover {
+    background-color: #0056b3;
 }

@@ -8,6 +8,10 @@ function Cart() {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
+  const totalPrice = cart.reduce(
+    (total, product) => total + product.price * (product.quantity || 1),
+    0
+  );
 
   const handleRemoveFromCart = (product) => {
     dispatch(removeFromCart(product));
@@ -22,7 +26,6 @@ function Cart() {
 
   return (
     <div className={styles.cart}>
-      <h2>Cart</h2>
       {cart.length === 0 ? (
         <p>Sepetiniz boş.</p>
       ) : (
@@ -51,6 +54,7 @@ function Cart() {
         ))
       )}
       <div>
+      <h3>Total Price: ${totalPrice.toFixed(2)}</h3>
       <button className={styles.BuyAll} onClick={() => dispatch(clearCart())}>Buy All</button>
       <button className={styles.ClearAll} onClick={() => dispatch(clearCart())}>Clear Cart</button>
       </div>
