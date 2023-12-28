@@ -1,10 +1,17 @@
-import React from 'react'
 import { useState, useEffect } from 'react'
 import ProductCSS from '../../style/Product.module.css'
-
+import {useDispatch} from 'react-redux'
+import {addToCart} from '../../redux/actions/cartActions'
 
 const PopularProducts = () => {
 
+
+  const dispatch = useDispatch();
+
+  const handleAddToCart = (product) => {
+    console.log("product",product);
+    dispatch(addToCart(product)); // Ürünü sepete eklemek için dispatch kullanımı
+  };
 
     const [popularProducts, setPopularProducts] = useState([])
 
@@ -35,7 +42,13 @@ const PopularProducts = () => {
             <h3 className={ProductCSS.discount}>Discount: {popularProduct.discountPercentage}%</h3>
             <h2 className={ProductCSS.priceWithoutDiscount}>{Math.ceil((popularProduct.price)/(1-(popularProduct.discountPercentage/100)))}$</h2>
             <h2 className={ProductCSS.price}>{popularProduct.price}$</h2>
-            <button className={ProductCSS.addToCart}>Add To Cart</button>
+            {/* <button className={ProductCSS.addToCart}>Add To Cart</button> */}
+            <button
+            className={ProductCSS.addToCart}
+            onClick={() => handleAddToCart(popularProduct)}
+          >
+            Add To Cart
+          </button>
             </div>
           )}    
     </div>

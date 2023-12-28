@@ -1,50 +1,63 @@
-import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Actions from '../../redux/actions'
+import { useSelector, useDispatch } from "react-redux";
+import { addToCart, removeFromCart, clearCart, updateCartQuantity } from "../../redux/actions/cartActions";
+import styles from "../../style/Cart.module.css";
 
 
-const Cart = () => {
- 
-  const dispatch = useDispatch()
-  const cart = useSelector(state => state.cartReducers)
-  const { cartItems } = cart
-  const removeFromCartHandler = (id) => {
-    dispatch(Actions.removeFromCart(id))
-  }
-  const checkoutHandler = () => {
-    // props.history.push('/signin?redirect=shipping')
-    
-  }
+
+function Cart() {
+  const cart = useSelector((state) => state.cart);
+  const dispatch = useDispatch();
 
 
-  
+  const handleRemoveFromCart = (product) => {
+    dispatch(removeFromCart(product));
+  };
+
+  const handleUpdateCartQuantity = (product, quantity) => {
+    dispatch(updateCartQuantity(product, quantity));
+  };
+
+
+
 
   return (
-    <div>
-      {cartItems.length === 0 ? (
-        <div>Cart is empty</div>
+    <div className={styles.cart}>
+      <h2>Cart</h2>
+      {cart.length === 0 ? (
+        <p>Sepetiniz boş.</p>
       ) : (
-        <div>
-          {cartItems.map((item) => (
-            <div key={item.id}>
-              <div>{item.name}</div>
-              <div>
-                <button
-                  type="button"
-                  onClick={() => removeFromCartHandler(item.id)}
-                >
-                  Remove
-                </button>
-              </div>
+        cart.map((product) => (
+          <div key={product.id} className={styles.cartItem}>
+            <img src={product.images[0]} alt={product.title} />
+            <div>
+              <h3>{product.title}</h3>
+              <p>{product.description}</p>
+              <p>${product.price}</p>
+              <button onClick={() => handleRemoveFromCart(product)}>
+                Remove
+              </button>
+              <input
+                type="number"
+                value={product.quantity || 1}
+                onChange={(e) =>
+                  handleUpdateCartQuantity(product, e.target.value)
+                }
+                onKeyDown={(e) => {
+                  e.preventDefault();
+                }}
+                />
             </div>
-          ))}
-          <button type="button" onClick={checkoutHandler}>
-            Proceed To Checkout
-          </button>
-        </div>
-      )}    
+          </div>
+        ))
+      )}
+      <div>
+      <button className={styles.BuyAll} onClick={() => dispatch(clearCart())}>Buy All</button>
+      <button className={styles.ClearAll} onClick={() => dispatch(clearCart())}>Clear Cart</button>
+      </div>
     </div>
-  )
+  );
+  
 }
 
-export default Cart
+
+export default Cart;
