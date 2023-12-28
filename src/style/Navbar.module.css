@@ -12,3 +12,14 @@
     margin-left: 30px;
     margin-right: 40px;
 }
+
+.CartButton{
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.icon{
+    color: white;
+}
