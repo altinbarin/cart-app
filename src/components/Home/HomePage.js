@@ -10,6 +10,7 @@ function Home() {
     <div className={HomeCSS.Home}>
       <SlideProducts />
       <PopularProducts />
+      
     </div>
   )
 }
